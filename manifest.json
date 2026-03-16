@@ -1,0 +1,16 @@
+{
+  "name": "XOP Trade Robot Rankings",
+  "short_name": "XOP Trade",
+  "description": "World's Largest Trading Robot Rankings – Backtested & Forward-Tested",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#0b1120",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "https://via.placeholder.com/192x192/00d2ff/ffffff?text=XOP", "sizes": "192x192", "type": "image/png" },
+    { "src": "https://via.placeholder.com/512x512/00d2ff/ffffff?text=XOP", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["finance", "business"],
+  "lang": "en"
+}
