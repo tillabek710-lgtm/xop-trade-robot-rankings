@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="World's Largest Trading Robot Rankings – Backtested & Forward-Tested"/>
+  <meta name="theme-color" content="#0b1120"/>
+  <title>XOP Trade Robot Rankings</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- ========== TOAST ========== -->
+  <div id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ========== HEADER ========== -->
+  <header id="header">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="XOP Trade Home">
+        <div class="logo-icon"><i class="fa-solid fa-robot"></i></div>
+        <div class="logo-text"><span class="logo-xop">XOP</span> Trade</div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="#" class="nav-link active">Home</a>
+        <a href="#rankings" class="nav-link">Rankings</a>
+        <a href="#compare-section" class="nav-link">Compare</a>
+        <a href="#charts-section" class="nav-link">Dashboard</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-right">
+        <div class="live-counter" aria-label="Live users online">
+          <span class="live-dot"></span>
+          <span id="liveCounter">124,853</span> online
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+          <i class="fa-solid fa-sun" id="themeIcon"></i>
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Login coming soon!')">Login</button>
+        <button class="btn btn-primary btn-sm" onclick="showToast('Signup coming soon!')">Sign Up</button>
+        <button class="hamburger" id="hamburger" aria-label="Open mobile menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#" onclick="closeMobileNav()">Home</a>
+    <a href="#rankings" onclick="closeMobileNav()">Rankings</a>
+    <a href="#compare-section" onclick="closeMobileNav()">Compare</a>
+    <a href="#charts-section" onclick="closeMobileNav()">Dashboard</a>
+    <a href="#about" onclick="closeMobileNav()">About</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-orbs" aria-hidden="true">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-badge"><i class="fa-solid fa-earth-americas"></i> Trusted in 47 Countries Worldwide</div>
+      <h1 class="hero-title">World's Largest<br><span class="gradient-text">Trading Robot Rankings</span></h1>
+      <p class="hero-sub">Real-time rankings of backtested &amp; forward-tested algorithmic trading bots — curated, audited, and trusted by <strong>125K+ traders</strong> globally.</p>
+
+      <!-- Hero Stats -->
+      <div class="hero-stats" aria-label="Platform statistics">
+        <div class="hero-stat">
+          <i class="fa-solid fa-earth-americas"></i>
+          <span class="hero-stat-num" data-target="47">0</span>
+          <span class="hero-stat-label">Countries</span>
+        </div>
+        <div class="hero-stat">
+          <i class="fa-solid fa-robot"></i>
+          <span class="hero-stat-num" data-target="156">0</span>
+          <span class="hero-stat-label">Robots</span>
+        </div>
+        <div class="hero-stat">
+          <i class="fa-solid fa-dollar-sign"></i>
+          <span class="hero-stat-num" data-target="2.4" data-prefix="$" data-suffix="M">0</span>
+          <span class="hero-stat-label">Total Profit</span>
+        </div>
+        <div class="hero-stat">
+          <i class="fa-solid fa-star"></i>
+          <span class="hero-stat-num" data-target="4.8" data-decimal="1">0</span>
+          <span class="hero-stat-label">Avg Rating</span>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="hero-search">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="heroSearch" placeholder="Search robots by name, strategy..." aria-label="Search robots"/>
+          <kbd class="search-hint">/</kbd>
+        </div>
+        <button class="btn btn-primary" onclick="document.getElementById('rankings').scrollIntoView({behavior:'smooth'})">
+          <i class="fa-solid fa-trophy"></i> View Rankings
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TRENDING SECTION ========== -->
+  <section class="trending-section">
+    <div class="container">
+      <div class="trending-header">
+        <div class="section-label"><i class="fa-solid fa-fire"></i> Trending Now</div>
+        <div class="auto-refresh-wrap">
+          <label class="toggle-label" for="autoRefresh">
+            <input type="checkbox" id="autoRefresh" checked/>
+            <span class="toggle-slider"></span>
+            Auto-refresh
+          </label>
+        </div>
+      </div>
+      <div class="trending-list" id="trendingList"></div>
+    </div>
+  </section>
+
+  <!-- ========== ACTIVITY FEED ========== -->
+  <div class="activity-feed" id="activityFeed" aria-live="polite" aria-label="Live user activity"></div>
+
+  <!-- ========== RANKINGS ========== -->
+  <section id="rankings" class="rankings-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title"><i class="fa-solid fa-list-ol"></i> Full Rankings</h2>
+          <p class="section-sub">All robots ranked by composite score. Updated every 30 seconds.</p>
+        </div>
+        <div class="rankings-actions">
+          <button class="btn btn-ghost btn-sm" id="exportCsvBtn"><i class="fa-solid fa-download"></i> Export CSV</button>
+          <button class="btn btn-ghost btn-sm" id="printBtn"><i class="fa-solid fa-print"></i> Print</button>
+          <button class="btn btn-ghost btn-sm" id="filterToggleBtn"><i class="fa-solid fa-sliders"></i> Filters</button>
+        </div>
+      </div>
+
+      <!-- FILTERS PANEL -->
+      <div class="filter-panel" id="filterPanel">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Search</label>
+            <div class="search-box sm">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="tableSearch" placeholder="Robot name..."/>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Test Status</label>
+            <div class="check-group">
+              <label class="check-label"><input type="checkbox" id="filterBt" checked/> <span>Backtested</span></label>
+              <label class="check-label"><input type="checkbox" id="filterFt" checked/> <span>Forward Tested</span></label>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Risk Level</label>
+            <div class="check-group">
+              <label class="check-label"><input type="checkbox" class="risk-cb" value="Low" checked/> <span class="risk-dot low"></span> Low</label>
+              <label class="check-label"><input type="checkbox" class="risk-cb" value="Medium" checked/> <span class="risk-dot medium"></span> Medium</label>
+              <label class="check-label"><input type="checkbox" class="risk-cb" value="High" checked/> <span class="risk-dot high"></span> High</label>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Min Win Rate: <span id="wrVal">0</span>%</label>
+            <input type="range" id="wrSlider" min="0" max="100" value="0" class="range-slider"/>
+          </div>
+          <div class="filter-group">
+            <label>Min Profit Factor: <span id="pfVal">0.0</span></label>
+            <input type="range" id="pfSlider" min="0" max="50" value="0" class="range-slider"/>
+          </div>
+          <div class="filter-group">
+            <label>Max Drawdown: <span id="ddVal">50</span>%</label>
+            <input type="range" id="ddSlider" min="0" max="50" value="50" class="range-slider"/>
+          </div>
+          <div class="filter-group">
+            <label>Sort By</label>
+            <select id="sortSelect" class="filter-select">
+              <option value="rank">Rank</option>
+              <option value="winRate">Win Rate</option>
+              <option value="totalReturn">Total Return</option>
+              <option value="users">Users</option>
+              <option value="rating">Rating</option>
+              <option value="sharpe">Sharpe Ratio</option>
+            </select>
+          </div>
+          <div class="filter-group filter-actions">
+            <button class="btn btn-ghost btn-sm" id="resetFilters"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE DESKTOP -->
+      <div class="table-wrap" id="tableWrap">
+        <div class="table-container" id="tableContainer">
+          <!-- skeleton shown first -->
+          <div class="skeleton-wrap" id="skeletonWrap">
+            <div class="skeleton-row" style="animation-delay:0s"></div>
+            <div class="skeleton-row" style="animation-delay:.1s"></div>
+            <div class="skeleton-row" style="animation-delay:.2s"></div>
+            <div class="skeleton-row" style="animation-delay:.3s"></div>
+            <div class="skeleton-row" style="animation-delay:.4s"></div>
+          </div>
+          <table id="rankTable" class="rank-table" style="display:none" aria-label="Robot Rankings">
+            <thead>
+              <tr>
+                <th style="width:70px">Rank</th>
+                <th>Robot</th>
+                <th title="Backtest results available">BT</th>
+                <th title="Live testing completed">FT</th>
+                <th>Win Rate</th>
+                <th>Profit Factor</th>
+                <th>Return</th>
+                <th>Risk</th>
+                <th>Sharpe</th>
+                <th>Drawdown</th>
+                <th>Users</th>
+                <th>Rating</th>
+                <th style="width:90px">30D Perf</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <!-- mobile card view -->
+        <div class="card-list" id="cardList"></div>
+        <div class="empty-state" id="emptyState" style="display:none">
+          <i class="fa-solid fa-robot"></i>
+          <h3>No robots found</h3>
+          <p>Try adjusting your filters or search term.</p>
+          <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </section>
+
+  <!-- ========== COMPARE SECTION ========== -->
+  <section id="compare-section" class="compare-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title"><i class="fa-solid fa-scale-balanced"></i> Compare Robots</h2>
+          <p class="section-sub">Select up to 3 robots to compare side-by-side</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="clearCompare"><i class="fa-solid fa-trash"></i> Clear All</button>
+      </div>
+      <div class="compare-selectors" id="compareSelectors"></div>
+      <div class="compare-table-wrap" id="compareTableWrap" style="display:none">
+        <div id="compareTableContainer"></div>
+        <div class="compare-recommendation" id="compareRecommendation"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CHARTS SECTION ========== -->
+  <section id="charts-section" class="charts-section">
+    <div class="container">
+      <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Analytics Dashboard</h2>
+      <p class="section-sub">Visual performance overview across all ranked robots</p>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <h3>Top 10 by Win Rate</h3>
+            <button class="btn-icon" title="Export chart" onclick="showToast('Chart exported!')"><i class="fa-solid fa-download"></i></button>
+          </div>
+          <canvas id="winRateChart" height="260"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <h3>Risk Distribution</h3>
+            <button class="btn-icon" title="Export chart" onclick="showToast('Chart exported!')"><i class="fa-solid fa-download"></i></button>
+          </div>
+          <canvas id="riskChart" height="260"></canvas>
+        </div>
+        <div class="chart-card chart-wide">
+          <div class="chart-card-header">
+            <h3>Monthly Performance Trend</h3>
+            <select id="perfChartSelect" class="filter-select sm"></select>
+          </div>
+          <canvas id="perfChart" height="220"></canvas>
+        </div>
+        <div class="chart-card chart-wide">
+          <div class="chart-card-header">
+            <h3>Return vs Risk (Scatter)</h3>
+          </div>
+          <canvas id="scatterChart" height="220"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WATCHLIST / DASHBOARD ========== -->
+  <section class="dashboard-section" id="dashboard">
+    <div class="container">
+      <h2 class="section-title"><i class="fa-solid fa-bookmark"></i> My Dashboard</h2>
+      <p class="section-sub">Saved locally — your personal trading robot workspace</p>
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <h3 class="dash-card-title"><i class="fa-solid fa-star"></i> My Watchlist</h3>
+          <div id="watchlistContainer"><p class="empty-msg">No robots saved yet. Click ⭐ to add.</p></div>
+        </div>
+        <div class="dash-card">
+          <h3 class="dash-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recently Viewed</h3>
+          <div id="recentlyViewedContainer"><p class="empty-msg">No robots viewed yet.</p></div>
+        </div>
+        <div class="dash-card">
+          <h3 class="dash-card-title"><i class="fa-solid fa-bell"></i> Price Alerts</h3>
+          <div class="alert-form">
+            <select id="alertRobot" class="filter-select">
+              <option value="">Select robot...</option>
+            </select>
+            <select id="alertType" class="filter-select">
+              <option value="above">Win Rate Above</option>
+              <option value="below">Drawdown Below</option>
+            </select>
+            <input type="number" id="alertVal" class="filter-select" placeholder="Value" min="0" max="100"/>
+            <button class="btn btn-primary btn-sm" id="addAlertBtn">Set Alert</button>
+          </div>
+          <div id="alertsList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MODAL ========== -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Robot Details">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ========== GLOBAL MAP ========== -->
+  <section class="map-section" id="about">
+    <div class="container">
+      <h2 class="section-title"><i class="fa-solid fa-earth-americas"></i> Global Community</h2>
+      <p class="section-sub">Active users across 47 countries and growing</p>
+      <div class="globe-wrap">
+        <div class="globe" aria-hidden="true">
+          <div class="globe-ring r1"></div>
+          <div class="globe-ring r2"></div>
+          <div class="globe-ring r3"></div>
+          <div class="globe-core"><i class="fa-solid fa-earth-americas"></i></div>
+          <div class="globe-dots" id="globeDots"></div>
+        </div>
+        <div class="map-stats">
+          <div class="map-stat"><span class="map-stat-num" data-target="47">0</span><span>Countries</span></div>
+          <div class="map-stat"><span class="map-stat-num" data-target="125000" data-suffix="K+" data-div="1000">0</span><span>Traders</span></div>
+          <div class="map-stat"><span class="map-stat-num" data-target="1200000" data-suffix="M+" data-div="1000000">0</span><span>Trades Analyzed</span></div>
+          <div class="map-stat"><span class="map-stat-num" data-target="99.9" data-decimal="1" data-suffix="%">0</span><span>Uptime</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="logo-text"><span class="logo-xop">XOP</span> Trade</div>
+          </a>
+          <p>The global standard for algorithmic trading robot performance rankings. Transparent, data-driven, community-powered.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#">Rankings</a></li>
+            <li><a href="#">Submit Robot</a></li>
+            <li><a href="#">API Access</a></li>
+            <li><a href="#">Backtesting Docs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Disclaimer</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Get weekly rankings updates</p>
+          <div class="newsletter-form">
+            <input type="email" placeholder="your@email.com" class="filter-select" id="newsletterEmail"/>
+            <button class="btn btn-primary btn-sm" onclick="subscribeNewsletter()">Subscribe</button>
+          </div>
+          <div class="lang-select-wrap" style="margin-top:14px;">
+            <select class="filter-select" onchange="showToast('Language: '+this.options[this.selectedIndex].text)">
+              <option>🇺🇸 English</option>
+              <option>🇪🇸 Español</option>
+              <option>🇷🇺 Русский</option>
+              <option>🇹🇷 Türkçe</option>
+              <option>🇨🇳 中文</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 XOP Trade · Global Trading Robot Rankings · <a href="mailto:support@xoptrade.com">support@xoptrade.com</a></span>
+        <div class="footer-trust">
+          <span><i class="fa-solid fa-shield-halved"></i> SSL Secured</span>
+          <span><i class="fa-solid fa-circle-check"></i> Verified Data</span>
+          <span><i class="fa-solid fa-globe"></i> 47 Countries</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Keyboard shortcut hint -->
+  <div class="kbd-hints" id="kbdHints">
+    <kbd>/</kbd> Search &nbsp;
+    <kbd>F</kbd> Filters &nbsp;
+    <kbd>D</kbd> Dark Mode &nbsp;
+    <kbd>Esc</kbd> Close
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
